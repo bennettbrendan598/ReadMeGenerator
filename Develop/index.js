@@ -1,10 +1,10 @@
 // Packages for ReadMeGenerator Go Here:
 // File System Extra: https://www.npmjs.com/package/fs-extra
-    const fs = require('fs')
+const fs = require('fs')
 // Inquirer: https://www.npmjs.com/package/inquirer
-    const inquirer = require('inquirer')
+const inquirer = require('inquirer')
 // GenerateMarkdown: 
-    const GenerateMarkdown = require('generateMarkdown')
+const GenerateMarkdown = require('generateMarkdown')
 
 // Questions (lightly based off of 01-HTML-Git-CSS/04-Important/Good-README-Guide/README.md)
 const questions = [{
@@ -13,7 +13,8 @@ const questions = [{
     message: 'Name of the person, group, business, or company creating this README.md file (Required):',
     validate: nameInput => {
         if (nameInput) {
-            return true;}
+            return true;
+        }
         else {
             console.log('A name is required!');
             return false;
@@ -27,7 +28,8 @@ const questions = [{
     message: 'GitHub Username of the account in which this repository is created (Required):',
     validate: githubUsernameInput => {
         if (githubUsernameInput) {
-            return true;}
+            return true;
+        }
         else {
             console.log('A GitHub Username is required!');
             return false;
@@ -41,7 +43,8 @@ const questions = [{
     message: 'Valid email address (Required):',
     validate: email => {
         if (emailInput) {
-            return true;}
+            return true;
+        }
         else {
             console.log('An email address is required!');
             return false;
@@ -55,7 +58,8 @@ const questions = [{
     message: 'Title of the Project (Required):',
     validate: title => {
         if (title) {
-            return true;}
+            return true;
+        }
         else {
             console.log('A title is required!');
             return false;
@@ -63,15 +67,38 @@ const questions = [{
     }
 },
 
+// For inputs that are not required, use inquirer's 'confirm'
+{
+    type: 'confirm',
+    name: 'confirm subtitle',
+    message: 'Subtitle (Optional)',
+    default: true
+},
+
 {
     type: 'input',
-    name: 'githubUsername',
-    message: 'What is the GitHub Username of the account in which this repository is created?',
-    validate: githubUsernameInput => {
-        if (githubUsernameInput) {
-            return true;}
+    name: 'subtitle',
+    message: 'Subtitle:',
+    validate: subtitle => {
+        if (subtitleInput) {
+            return true;
+        }
         else {
-            console.log('A name is required!');
+            return false;
+        }
+    }
+},
+
+{
+    type: 'input',
+    name: 'email',
+    message: 'Valid email address (Required):',
+    validate: email => {
+        if (emailInput) {
+            return true;
+        }
+        else {
+            console.log('An email address is required!');
             return false;
         }
     }
@@ -79,10 +106,10 @@ const questions = [{
 
 
 // TODO: Create a function to write README file
-function writeToFile(fileName, data) {}
+function writeToFile(fileName, data) { }
 
 // TODO: Create a function to initialize app
-function init() {}
+function init() { }
 
 // Function call to initialize app
 init();

@@ -9,7 +9,7 @@ const inquirer = require('inquirer')
 
 // GenerateMarkdown: 
 
-const generateMarkdown = require('./utils/generateMarkdown')
+const generateMarkdown = require('./utils/generateMarkdown');
 
 // Questions: (Based off of 01-HTML-Git-CSS/04-Important/Good-README-Guide/README.md and https://meakaakka.medium.com/a-beginners-guide-to-writing-a-kickass-readme-7ac01da88ab3)
 
@@ -341,6 +341,7 @@ function init() {
         })
 };
 
-// Function call to initialize the app
+// Function to initialize the app
 
 init();
+}

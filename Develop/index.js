@@ -9,7 +9,7 @@ const inquirer = require('inquirer')
 
 // GenerateMarkdown: 
 
-const GenerateMarkdown = require('generateMarkdown')
+const generateMarkdown = require('./utils/generateMarkdown')
 
 // Questions: (Based off of 01-HTML-Git-CSS/04-Important/Good-README-Guide/README.md and https://meakaakka.medium.com/a-beginners-guide-to-writing-a-kickass-readme-7ac01da88ab3)
 
@@ -106,7 +106,7 @@ const questions = [{
 
 {
     type: 'input',
-    name: 'motivation',
+    name: 'Motivation',
     message: 'Please explain what motivated you to create this project:',
     when: ({
         confirmMotivation
@@ -121,7 +121,7 @@ const questions = [{
 
 {
     type: 'input',
-    name: 'description',
+    name: 'Description',
     message: 'Please provide a detailed description of this project. (Required):',
     validate: descriptionInput => {
         if (descriptionInput) {
@@ -136,7 +136,7 @@ const questions = [{
 
 {
     type: 'input',
-    name: 'installation',
+    name: 'Installation',
     message: 'Please provide installation instructions for this project. (Required):',
     validate: installationInput => {
         if (installationInput) {
@@ -151,7 +151,7 @@ const questions = [{
 
 {
     type: 'input',
-    name: 'usage',
+    name: 'Usage',
     message: 'Please provide instructions for product usage (Required):',
     validate: usageInput => {
         if (usageInput) {
@@ -173,7 +173,7 @@ const questions = [{
 
 {
     type: 'input',
-    name: 'features',
+    name: 'Features',
     message: 'Please describe the features of this project:',
     when: ({
         confirmFeatures
@@ -195,7 +195,7 @@ const questions = [{
 
 {
     type: 'input',
-    name: 'production',
+    name: 'Production',
     message: 'Please provide the project repository name from GitHub:',
     when: ({
         confirmProduction
@@ -217,7 +217,7 @@ const questions = [{
 
 {
     type: 'input',
-    name: 'tests',
+    name: 'Tests',
     message: 'Please include descriptions and/or code examples of how to run tests for this project:',
     when: ({
         confirmTests
@@ -239,7 +239,7 @@ const questions = [{
 
 {
     type: 'list',
-    name: 'license',
+    name: 'Licenses',
     message: 'Which of the following badges would you like to include?',
     choices: [
         'Apache', 'Boost', 'BSD', 'Eclipse', 'GNU', 'IBM', 'ISC', 'MIT', 'Perl'
@@ -257,6 +257,28 @@ const questions = [{
 
 {
     type: 'confirm',
+    name: 'confirmContributions',
+    message: 'Would you like to add any contributors to the project? (Optional):',
+    default: true
+},
+
+{
+    type: 'input',
+    name: 'Contributions',
+    message: 'Please provide the GitHub username of anyone who has contributed on this project:',
+    when: ({
+        confirmContributions
+    }) => {
+        if (confirmContributions) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+},
+
+{
+    type: 'confirm',
     name: 'confirmScreenshot',
     message: 'Would you like to include a screenshot of your finished project? (Optional):',
     default: true
@@ -264,7 +286,7 @@ const questions = [{
 
 {
     type: 'input',
-    name: 'screenshot',
+    name: 'Screenshot',
     message: 'Please include the relative path to the screenshot of your finished project:',
     when: ({
         confirmScreenshot
@@ -277,15 +299,48 @@ const questions = [{
     }
 },
 
+{
+    type: 'confirm',
+    name: 'confirmToc',
+    message: 'Would you like to include a Table of Contents? (Optional):',
+    default: true
+},
+{
+    type: 'checkbox',
+    name: 'table',
+    message: 'Please select links to be displayed under the Table of Contents: (Remember: do not select the *optional* sections that you did not provide information for)',
+    choices: [
+        'Motivation', 'Description', 'Installation', 'Usage', 'Features', 'Production', 'Tests', 'Licenses', 'Contributions', 'Screenshot' 
+    ],
+    when: ({
+        confirmToc
+    }) => {
+        if (confirmToc) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+},
+];
 
+// Function to write README file
+function writeToFile(fileName, responseData) {
+    fs.writeFile(fileName, responseData, err => {
+        if (err) throw err;
+        console.log('Finished!');
+    })
 
+// Function to initialize app
 
+function init() {
+    return inquirer.prompt(questions)
+        .then(responseData => {
+            console.log("README Complete!")
+            writeToFile('./dist/README.md', generateMarkdown(responseData))
+        })
+};
 
-// TODO: Create a function to write README file
-function writeToFile(fileName, data) { },
+// Function call to initialize the app
 
-// TODO: Create a function to initialize app
-function init() { },
-
-// Function call to initialize app
 init();
